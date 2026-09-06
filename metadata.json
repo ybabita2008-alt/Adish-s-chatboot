@@ -1,0 +1,8 @@
+{
+  "name": "Adish\u0027s chatboot",
+  "description": "A powerfull AI chatboot created byAdish Yadav",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

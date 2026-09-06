@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adish's chatboot</title>
+  <meta name="description" content="A powerfull AI chatboot created byAdish Yadav" />
+  <meta property="og:title" content="Adish's chatboot" />
+  <meta property="og:description" content="A powerfull AI chatboot created byAdish Yadav" />
+  <!-- Tailwind CSS via CDN for lightweight web preview -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    pre code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+  <!-- Top Navigation Bar -->
+  <header id="app-header" class="bg-white border-b border-slate-200 sticky top-0 z-20 px-4 sm:px-6 py-3 transition-shadow">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-semibold text-slate-900 leading-tight tracking-tight text-base sm:text-lg flex items-center gap-2">
+            Adish's chatboot
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5 animate-pulse"></span>
+              All-in-One AI
+            </span>
+          </h1>
+          <p class="text-xs text-slate-500 hidden sm:block">A powerfull AI chatboot created byAdish Yadav</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <!-- Download Android APK Button -->
+        <a id="download-apk-btn" href="/app-debug.apk" download="app-debug.apk"
+           class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+          <span class="hidden sm:inline">Download</span> Android APK
+          <span class="text-xs opacity-75 font-normal">22MB</span>
+        </a>
+
+        <!-- Clear Chat Button -->
+        <button id="clear-chat-btn" onclick="clearMessages()" title="Clear Chat History"
+                class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Scrollable Chat Area -->
+  <main id="chat-container" class="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6 max-w-4xl w-full mx-auto">
+    <!-- Welcome Card -->
+    <div id="welcome-card" class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div class="space-y-2">
+          <h2 class="text-lg font-semibold text-slate-900">Welcome to Adish's chatboot</h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            A powerfull AI chatboot created byAdish Yadav. All capabilities are attached into one unified AI assistant — combining omniscient reasoning, full-stack software engineering, root-cause debugging, and rapid concise answers.
+          </p>
+          <div class="pt-3 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button onclick="usePrompt('Write a clean Kotlin Jetpack Compose composable with state hoisting and animations')"
+                    class="text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition-all text-xs group">
+              <span class="font-semibold text-slate-800 block group-hover:text-indigo-600 mb-0.5">📱 Android Jetpack Compose</span>
+              <span class="text-slate-500">Create state-hoisted composable with smooth transitions</span>
+            </button>
+            <button onclick="usePrompt('Write an optimized LRU Cache implementation with O(1) get and put in TypeScript with unit tests')"
+                    class="text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition-all text-xs group">
+              <span class="font-semibold text-slate-800 block group-hover:text-indigo-600 mb-0.5">💻 Data Structures &amp; Algorithms</span>
+              <span class="text-slate-500">O(1) LRU Cache in TypeScript with complete test suite</span>
+            </button>
+            <button onclick="usePrompt('Explain how to design a high-throughput distributed rate limiter with Redis token buckets')"
+                    class="text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition-all text-xs group">
+              <span class="font-semibold text-slate-800 block group-hover:text-indigo-600 mb-0.5">🏛️ System Architecture</span>
+              <span class="text-slate-500">Distributed token-bucket rate limiter design with Redis</span>
+            </button>
+            <button onclick="usePrompt('Debug this JavaScript memory leak: setInterval holding closures on detached DOM nodes')"
+                    class="text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition-all text-xs group">
+              <span class="font-semibold text-slate-800 block group-hover:text-indigo-600 mb-0.5">🔍 Debug &amp; Root Cause</span>
+              <span class="text-slate-500">Trace memory leak in closures and detached DOM trees</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="messages-list" class="space-y-6"></div>
+  </main>
+
+  <!-- Bottom Input Bar -->
+  <footer class="bg-white border-t border-slate-200 px-4 sm:px-6 py-4">
+    <div class="max-w-4xl mx-auto space-y-2.5">
+      <!-- Suggested Context Chips -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs">
+        <button onclick="usePrompt('Add comprehensive docstrings and TypeScript types to this function')"
+                class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md transition-colors whitespace-nowrap">
+          + Add Documentation &amp; Types
+        </button>
+        <button onclick="usePrompt('Refactor this to be more functional and avoid mutable state')"
+                class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md transition-colors whitespace-nowrap">
+          + Refactor to Immutable
+        </button>
+        <button onclick="usePrompt('Write edge-case unit tests with 100% boundary coverage')"
+                class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md transition-colors whitespace-nowrap">
+          + Generate Unit Tests
+        </button>
+        <button onclick="usePrompt('What is the Big-O time and space complexity of this approach?')"
+                class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md transition-colors whitespace-nowrap">
+          + Complexity Analysis
+        </button>
+      </div>
+
+      <!-- Input Form -->
+      <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-end gap-2 bg-slate-50 border border-slate-300 rounded-2xl p-2 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:bg-white transition-all">
+        <textarea id="message-input" rows="1"
+                  placeholder="Ask a question or request code... (Shift+Enter for newline)"
+                  class="flex-1 max-h-48 resize-none bg-transparent px-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none leading-relaxed"
+                  onkeydown="handleKeyDown(event)"
+                  oninput="autoResize(this)"></textarea>
+
+        <button type="submit" id="send-btn"
+                class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors shadow-xs shrink-0 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="flex items-center justify-between text-[11px] text-slate-400 px-1">
+        <span>Press <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-slate-600 font-mono">Enter</kbd> to send, <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-slate-600 font-mono">Shift + Enter</kbd> for newline</span>
+        <span id="active-mode-label" class="font-medium text-indigo-600">Adish's chatboot • All-in-One AI</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let conversationHistory = [];
+    let isGenerating = false;
+
+    function usePrompt(text) {
+      const input = document.getElementById('message-input');
+      input.value = text;
+      autoResize(input);
+      input.focus();
+    }
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
+    }
+
+    function handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSubmit(e);
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function formatMarkdown(text) {
+      // 1. Code blocks with language and copy button
+      const codeBlockRegex = /```([a-zA-Z0-9_\-\+]*)\n([\s\S]*?)```/g;
+      let formatted = text.replace(codeBlockRegex, function(match, lang, code) {
+        const cleanLang = lang.trim() || 'code';
+        const escapedCode = escapeHtml(code.trimEnd());
+        return `
+          <div class="my-4 rounded-xl overflow-hidden border border-slate-800 bg-slate-900 text-slate-100 shadow-md">
+            <div class="flex items-center justify-between px-4 py-2 bg-slate-950/80 border-b border-slate-800 text-xs text-slate-400 font-mono">
+              <span>${cleanLang}</span>
+              <button onclick="copyCode(this)" data-code="${encodeURIComponent(code)}" class="flex items-center gap-1.5 hover:text-white px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 transition-colors">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy
+              </button>
+            </div>
+            <pre class="p-4 overflow-x-auto text-xs sm:text-sm font-mono leading-relaxed"><code>${escapedCode}</code></pre>
+          </div>
+        `;
+      });
+
+      // 2. Inline code
+      formatted = formatted.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-100 text-indigo-700 font-mono text-xs border border-slate-200">$1</code>');
+
+      // 3. Bold
+      formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-slate-900">$1</strong>');
+
+      // 4. Linebreaks
+      formatted = formatted.replace(/\n\n/g, '</p><p class="mt-3">');
+      formatted = formatted.replace(/\n/g, '<br/>');
+
+      return '<p>' + formatted + '</p>';
+    }
+
+    function copyCode(button) {
+      const code = decodeURIComponent(button.getAttribute('data-code'));
+      navigator.clipboard.writeText(code).then(() => {
+        const originalHtml = button.innerHTML;
+        button.innerHTML = '<span class="text-emerald-400">✓ Copied!</span>';
+        setTimeout(() => {
+          button.innerHTML = originalHtml;
+        }, 2000);
+      });
+    }
+
+    function appendMessage(role, content, tokenCount) {
+      const list = document.getElementById('messages-list');
+      const isUser = role === 'user';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex gap-3 sm:gap-4 ' + (isUser ? 'justify-end' : 'justify-start');
+
+      if (isUser) {
+        wrapper.innerHTML = `
+          <div class="max-w-2xl bg-indigo-600 text-white px-4 py-3 rounded-2xl rounded-tr-xs shadow-xs text-sm leading-relaxed">
+            ${escapeHtml(content).replace(/\n/g, '<br/>')}
+          </div>
+        `;
+      } else {
+        const formattedHtml = formatMarkdown(content);
+        wrapper.innerHTML = `
+          <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 shadow-xs mt-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="max-w-3xl flex-1 bg-white border border-slate-200 rounded-2xl rounded-tl-xs p-4 sm:p-5 shadow-xs">
+            <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-100 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="font-semibold text-slate-900">Adish's chatboot</span>
+                <span class="text-slate-400">• A powerfull AI chatboot created byAdish Yadav</span>
+              </div>
+              ${tokenCount ? `<span class="text-slate-400 text-[11px]">${tokenCount} tokens</span>` : ''}
+            </div>
+            <div class="text-sm text-slate-800 leading-relaxed space-y-3 prose max-w-none">
+              ${formattedHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      list.appendChild(wrapper);
+      const container = document.getElementById('chat-container');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function clearMessages() {
+      conversationHistory = [];
+      document.getElementById('messages-list').innerHTML = '';
+      document.getElementById('welcome-card').style.display = 'block';
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      if (isGenerating) return;
+
+      const input = document.getElementById('message-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      document.getElementById('welcome-card').style.display = 'none';
+
+      // Add user message to UI and history
+      appendMessage('user', text);
+      conversationHistory.push({ role: 'user', content: text });
+      input.value = '';
+      autoResize(input);
+
+      // Show typing indicator
+      isGenerating = true;
+      document.getElementById('send-btn').disabled = true;
+
+      const list = document.getElementById('messages-list');
+      const typingIndicator = document.createElement('div');
+      typingIndicator.id = 'typing-indicator';
+      typingIndicator.className = 'flex gap-3 sm:gap-4 justify-start';
+      typingIndicator.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 shadow-xs mt-1">
+          <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-xs p-4 shadow-xs text-xs text-slate-500 flex items-center gap-2">
+          <span>Adish's chatboot is thinking...</span>
+        </div>
+      `;
+      list.appendChild(typingIndicator);
+      const container = document.getElementById('chat-container');
+      container.scrollTop = container.scrollHeight;
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: conversationHistory
+          })
+        });
+
+        const data = await response.json();
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
+
+        if (response.ok && data.reply) {
+          appendMessage('assistant', data.reply, data.tokenCount);
+          conversationHistory.push({ role: 'model', content: data.reply });
+        } else {
+          const errMsg = data.error || 'Unable to generate response. Please check server logs.';
+          appendMessage('assistant', `⚠️ **Error**: ${errMsg}\n\n*If you haven't provided a GEMINI_API_KEY in the AI Studio Settings, please add it to enable real-time Gemini responses.*`);
+        }
+      } catch (err) {
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
+        appendMessage('assistant', `⚠️ **Network Error**: Could not contact dev server at /api/chat (${err.message}).`);
+      } finally {
+        isGenerating = false;
+        document.getElementById('send-btn').disabled = false;
+        input.focus();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "ai-chatbot-coding-assistant",
+  "version": "1.0.0",
+  "description": "An intelligent AI chatbot and coding assistant inspired by Claude, Gemini, and ChatGPT to answer questions and write code.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}
